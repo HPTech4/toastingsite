@@ -1,30 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Romantic Invitation</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <main class="page">
-        <section class="card" aria-label="Romantic message">
-            <div class="screen-glow" aria-hidden="true"></div>
-            <div class="badge">✦ for the one who matters</div>
-            <p class="eyebrow">A tender confession</p>
-            <h1 id="text">Will you be my girlfriend forever?</h1>
-            <p class="subtext" id="subtext">I want to love you in every season, in every silence, and in every dream.</p>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="page" id="page">
+      <section class="card" id="card" aria-label="Romantic message">
+        <div class="badge">✦ for the one who matters</div>
+        <p class="eyebrow">A tender confession</p>
+        <h1 id="text">Will you be my girlfriend forever?</h1>
+        <p class="subtext" id="subtext">
+          I want to love you in every season, in every silence, and in every
+          dream.
+        </p>
 
-            <div class="button-row">
-                <button id="yes" class="btn btn-yes">Yes, forever</button>
-                <button id="no" class="btn btn-no">No</button>
-            </div>
+        <div class="button-row">
+          <button id="yes" class="btn btn-yes">Yes, forever</button>
+          <button id="no" class="btn btn-no">No</button>
+        </div>
 
-            <div class="romantic-message" id="romantic-message"></div>
-            <div class="effect-container" id="effect-container" aria-hidden="true"></div>
-        </section>
+        <div class="romantic-message" id="romantic-message"></div>
+        <div
+          class="effect-container"
+          id="effect-container"
+          aria-hidden="true"
+        ></div>
+      </section>
     </main>
 
+    <div class="letter-scene" id="letter-scene" aria-hidden="true">
+      <div class="letter-card">
+        <div class="letter-content" id="letter-content"></div>
+      </div>
+    </div>
+
+    <div class="cinematic-overlay" id="cinematic-overlay" aria-hidden="true">
+      <div class="overlay-heart">♡</div>
+    </div>
+
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
