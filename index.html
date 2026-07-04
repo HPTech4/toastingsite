@@ -1,46 +1,432 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Romantic Invitation</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main class="page" id="page">
-      <section class="card" id="card" aria-label="Romantic message">
-        <div class="badge">✦ for the one who matters</div>
-        <p class="eyebrow">A tender confession</p>
-        <h1 id="text">Will you be my girlfriend forever?</h1>
-        <p class="subtext" id="subtext">
-          I want to love you in every season, in every silence, and in every
-          dream.
-        </p>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Question, Sealed With Love</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Work+Sans:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    color-scheme: dark;
+    --bg-0: #170F1A;
+    --bg-1: #2B1A26;
+    --bg-2: #3A2430;
+    --rose: #E68A98;
+    --rose-deep: #B5566B;
+    --gold: #C9974C;
+    --gold-light: #E3BD7E;
+    --paper: #F7EEDD;
+    --paper-edge: #E7D9BC;
+    --ink: #3B2630;
+    --text: #F5E9E3;
+    --muted: #B79AAE;
+    --border: rgba(245, 233, 227, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: clamp(16px, 4vw, 32px);
+    font-family: "Work Sans", Arial, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(circle at 18% 12%, rgba(230,138,152,0.16), transparent 45%),
+      radial-gradient(circle at 86% 82%, rgba(201,151,76,0.14), transparent 42%),
+      var(--bg-0);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .ember {
+    position: absolute;
+    bottom: -10px;
+    left: var(--x);
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--gold-light);
+    opacity: 0.55;
+    animation: rise 10s linear infinite;
+    animation-delay: var(--delay);
+    box-shadow: 0 0 8px 2px rgba(227,189,126,0.5);
+  }
+  @keyframes rise {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    12%  { opacity: 0.6; }
+    100% { transform: translateY(-100vh) translateX(24px); opacity: 0; }
+  }
+
+  .scene { position: relative; z-index: 1; width: 100%; display: grid; place-items: center; }
+
+  .envelope {
+    position: relative;
+    width: min(92vw, 540px);
+    margin-top: 56px;
+    padding: 56px clamp(24px, 5vw, 44px) 40px;
+    border-radius: 6px 6px 22px 22px;
+    background: linear-gradient(175deg, var(--bg-1), var(--bg-0) 70%);
+    border: 1px solid var(--border);
+    box-shadow: 0 40px 90px rgba(0,0,0,0.55);
+    text-align: left;
+  }
+
+  .envelope__flap {
+    position: absolute;
+    top: -1px; left: -1px; right: -1px;
+    height: 92px;
+    background: linear-gradient(155deg, var(--bg-2), #1C1119);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transition: transform 1s cubic-bezier(.22,.9,.32,1), opacity 0.6s ease 0.3s;
+    z-index: 3;
+    border-radius: 6px 6px 0 0;
+  }
+  .envelope.opened .envelope__flap {
+    transform: rotateX(140deg) translateY(-4px);
+    opacity: 0;
+  }
+
+  .seal {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px; height: 44px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  .envelope.opened .seal {
+    transform: translateX(-50%) scale(0.4) rotate(25deg);
+    opacity: 0;
+  }
+
+  .envelope__body { position: relative; z-index: 1; }
+
+  .eyebrow {
+    font-family: "Caveat", cursive;
+    font-size: 1.5rem;
+    color: var(--rose);
+    margin: 0 0 4px;
+  }
+
+  h1 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    line-height: 1.25;
+    margin: 0 0 14px;
+    color: var(--text);
+  }
+
+  .subtext {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin: 0 0 30px;
+    max-width: 42ch;
+  }
+
+  .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    position: relative;
+    min-height: 56px;
+  }
+
+  .btn {
+    border: none;
+    border-radius: 999px;
+    padding: 14px 22px;
+    min-width: 140px;
+    font-family: "Work Sans", sans-serif;
+    font-weight: 600;
+    font-size: 0.98rem;
+    cursor: pointer;
+    transition: transform 0.35s ease, box-shadow 0.25s ease, opacity 0.3s ease, left 0.35s ease, top 0.35s ease;
+  }
+  .btn:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+  .btn:active { transform: scale(0.96); }
+
+  .btn-yes {
+    background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+    color: #2A1319;
+    box-shadow: 0 14px 30px rgba(230,138,152,0.25);
+  }
+  .btn-yes:hover { transform: translateY(-2px); }
+
+  .btn-no {
+    background: rgba(245,233,227,0.06);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-no.dodge-a { transform: translate(56px, -8px) rotate(2deg); }
+  .btn-no.dodge-b { transform: translate(-42px, 26px) rotate(-3deg); }
+  .btn-no.dodge-c { transform: translate(18px, -36px) rotate(-6deg); }
+  .btn-no.settled { opacity: 0.45; cursor: default; }
+
+  .hide { display: none !important; }
+
+  .effect-container { position: relative; height: 0; }
+  .effect {
+    position: absolute;
+    pointer-events: none;
+    animation: floatUp 1.5s ease-out forwards;
+  }
+  @keyframes floatUp {
+    0%   { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-110px) scale(1.3); }
+  }
+
+  .letter-scene {
+    position: fixed; inset: 0; z-index: 30;
+    display: none; align-items: center; justify-content: center;
+    padding: 24px;
+    background: linear-gradient(180deg, rgba(23,15,26,0.4), rgba(23,15,26,0.92));
+  }
+  .letter-scene.show { display: flex; }
+
+  .letter {
+    position: relative;
+    width: min(100%, 720px);
+    max-height: 86vh;
+    overflow-y: auto;
+    padding: clamp(32px, 5vw, 56px);
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 4px;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.5);
+    animation: unfold 0.9s cubic-bezier(.19,1,.22,1) forwards;
+  }
+  .letter::before {
+    content: "";
+    position: absolute; inset: 0;
+    border: 1px solid var(--paper-edge);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+
+  .letter__seal-stamp {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--gold-light), #9C6E32);
+    color: #2A1710;
+    display: grid; place-items: center;
+    font-size: 1.1rem;
+    margin: 0 auto 18px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  }
+
+  .letter-content { font-family: "Work Sans", sans-serif; line-height: 1.85; font-size: clamp(0.98rem, 1.1vw, 1.05rem); }
+  .letter-content h2 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    color: #8A2F4F;
+    margin: 0 0 20px;
+    text-align: center;
+  }
+  .letter-content p { margin: 0 0 16px; }
+  .letter-content .signoff {
+    font-family: "Caveat", cursive;
+    font-size: 1.6rem;
+    color: #8A2F4F;
+    text-align: right;
+    margin-top: 24px;
+  }
+
+  @keyframes unfold {
+    from { opacity: 0; transform: translateY(40px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .cinematic-overlay {
+    position: fixed; inset: 0; display: none; place-items: center;
+    background: radial-gradient(circle at center, rgba(230,138,152,0.18), rgba(23,15,26,0.95));
+    z-index: 25;
+  }
+  .cinematic-overlay.show { display: grid; animation: fadeOverlay 1s ease forwards; }
+  .overlay-heart {
+    font-size: clamp(3.5rem, 12vw, 7rem);
+    color: #F4D7DD;
+    animation: pulse 1.6s ease-in-out infinite;
+    text-shadow: 0 0 30px rgba(230,138,152,0.5);
+  }
+  @keyframes fadeOverlay { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pulse { 0%, 100% { transform: scale(0.95); } 50% { transform: scale(1.08); } }
+
+  @media (max-width: 480px) {
+    .envelope { padding: 48px 20px 32px; }
+    .button-row { flex-direction: column; }
+    .btn { width: 100%; min-width: 0; }
+    .btn-no.dodge-a, .btn-no.dodge-b, .btn-no.dodge-c { transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="ambient" aria-hidden="true">
+    <span class="ember" style="--x:8%;  --delay:0s"></span>
+    <span class="ember" style="--x:24%; --delay:1.4s"></span>
+    <span class="ember" style="--x:40%; --delay:2.8s"></span>
+    <span class="ember" style="--x:58%; --delay:0.8s"></span>
+    <span class="ember" style="--x:74%; --delay:2.1s"></span>
+    <span class="ember" style="--x:90%; --delay:3.5s"></span>
+  </div>
+
+  <main class="scene">
+    <section class="envelope" id="envelope" aria-label="Romantic message">
+      <div class="envelope__flap" aria-hidden="true">
+        <div class="seal" id="seal" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="44" height="44">
+            <defs>
+              <radialGradient id="sealGradient" cx="35%" cy="30%" r="80%">
+                <stop offset="0%" stop-color="#E3BD7E" />
+                <stop offset="100%" stop-color="#9C6E32" />
+              </radialGradient>
+            </defs>
+            <circle cx="20" cy="20" r="18" fill="url(#sealGradient)" />
+            <path d="M20 12c-3 4-8 5-8 10a8 8 0 0016 0c0-5-5-6-8-10z" fill="#170F1A" opacity="0.35" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="envelope__body">
+        <p class="eyebrow">a tender confession</p>
+        <h1 id="text">Will you be my girlfriend, forever?</h1>
+        <p class="subtext" id="subtext">I want to love you in every season, in every silence, and in every dream.</p>
 
         <div class="button-row">
-          <button id="yes" class="btn btn-yes">Yes, forever</button>
-          <button id="no" class="btn btn-no">No</button>
+          <button type="button" id="yes" class="btn btn-yes">Break the seal</button>
+          <button type="button" id="no" class="btn btn-no">Not yet</button>
         </div>
-
-        <div class="romantic-message" id="romantic-message"></div>
-        <div
-          class="effect-container"
-          id="effect-container"
-          aria-hidden="true"
-        ></div>
-      </section>
-    </main>
-
-    <div class="letter-scene" id="letter-scene" aria-hidden="true">
-      <div class="letter-card">
-        <div class="letter-content" id="letter-content"></div>
       </div>
-    </div>
 
-    <div class="cinematic-overlay" id="cinematic-overlay" aria-hidden="true">
-      <div class="overlay-heart">♡</div>
-    </div>
+      <div class="effect-container" id="effect-container" aria-hidden="true"></div>
+    </section>
+  </main>
 
-    <script src="script.js"></script>
-  </body>
+  <div class="letter-scene" id="letter-scene" aria-hidden="true">
+    <div class="letter" id="letter">
+      <div class="letter__seal-stamp" aria-hidden="true">&#9825;</div>
+      <div class="letter-content" id="letter-content"></div>
+    </div>
+  </div>
+
+  <div class="cinematic-overlay" id="cinematic-overlay" aria-hidden="true">
+    <div class="overlay-heart">&#9825;</div>
+  </div>
+
+  <script>
+    const state = { count: 0, accepted: false };
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const envelope = document.getElementById('envelope');
+    const text = document.getElementById('text');
+    const subtext = document.getElementById('subtext');
+    const noBtn = document.getElementById('no');
+    const yesBtn = document.getElementById('yes');
+    const effectContainer = document.getElementById('effect-container');
+    const letterScene = document.getElementById('letter-scene');
+    const letterContent = document.getElementById('letter-content');
+    const cinematic = document.getElementById('cinematic-overlay');
+
+    const dodgeClasses = ['dodge-a', 'dodge-b', 'dodge-c'];
+
+    function sprinkleHearts() {
+      if (reduceMotion) return;
+      for (let i = 0; i < 6; i++) {
+        const el = document.createElement('span');
+        el.className = 'effect';
+        el.textContent = i % 2 === 0 ? '\u2661' : '\u2726';
+        el.style.left = `${Math.random() * 80 + 5}%`;
+        el.style.top = `${Math.random() * 30}px`;
+        el.style.fontSize = `${16 + Math.random() * 14}px`;
+        el.style.color = i % 2 === 0 ? '#E68A98' : '#E3BD7E';
+        effectContainer.appendChild(el);
+        setTimeout(() => el.remove(), 1500);
+      }
+    }
+
+    const noLines = [
+      ["Please don't say that, baby.", "You know I would never play with something this real, this deep, this lasting."],
+      ["You are the love of my life.", "I'm not trying to pressure you, but I can't pretend I don't feel this strongly."],
+      ["One more chance, my love.", "If you truly feel what I feel, let your heart choose what it already knows."],
+      ["I will still choose you, always.", "Because some loves are not meant to be questioned. They are meant to be cherished."]
+    ];
+
+    noBtn.addEventListener('click', () => {
+      if (state.accepted) return;
+      state.count++;
+
+      dodgeClasses.forEach(c => noBtn.classList.remove(c));
+      if (state.count <= 3) {
+        noBtn.classList.add(dodgeClasses[state.count - 1]);
+      }
+
+      const idx = Math.min(state.count - 1, noLines.length - 1);
+      text.textContent = noLines[idx][0];
+      subtext.textContent = noLines[idx][1];
+
+      if (state.count === 3) {
+        noBtn.classList.add('settled');
+        noBtn.setAttribute('aria-disabled', 'true');
+      }
+    });
+
+    yesBtn.addEventListener('click', openLetter);
+
+    function openLetter() {
+      if (state.accepted) return;
+      state.accepted = true;
+
+      envelope.classList.add('opened');
+      sprinkleHearts();
+
+      const paragraphs = [
+        "My love, I have been trying to find the right words for this moment because you are not just another person in my life. You are the kind of woman who has touched my heart in a way that feels deep, lasting, and undeniable. When I think about you, I do not only think about your beauty, but about the peace you bring, the warmth you carry, the grace you reflect, and the way your presence makes life feel softer and more meaningful. There is something about you that stays with me long after the moment has passed, and I have come to realize that this feeling is not temporary. It is real, and it is growing every day.",
+        "I admire the way you carry yourself, the calm in your spirit, the strength in your heart, and the kindness in your soul. You are beautiful in a way that goes beyond appearance, because true beauty is not only what the eyes can see. It is in the way you speak, the way you listen, the way you care, and the way you make people feel safe and valued. Your beauty is not shallow, it is deep. It is not loud, it is graceful. It is not just about how you look, but about the love you give and the light you bring into the lives of those around you.",
+        "Your faith also means so much to me. There is a strength in the way you hold onto what matters, a quiet confidence in the way you stay grounded, and a sincerity in the way you live that I find deeply attractive. Faith is not just a belief to me; it is a reflection of character, purpose, and devotion. And when I see that in you, it makes me appreciate you even more. You do not just carry beauty, you carry meaning. You do not just live, you live with intention, and that is one of the most beautiful things about you.",
+        "Then there is your character, and honestly, this is one of the things that makes my love for you feel so real. You are gentle, but not weak. You are strong, but not cold. You are compassionate, but not naive. You are kind, but not ordinary. The way you love, the way you think, the way you carry yourself, and the way you remain true to who you are even when life is difficult—these things speak volumes. You are rare, and the more I know you, the more I understand that the love I feel is not just for what you look like, but for who you truly are.",
+        "And I cannot ignore the way you make me feel. There is something about your presence that makes my heart feel calm and alive at the same time. There is a softness in your energy that draws me closer, a spark in your spirit that I cannot explain, and a warmth in your company that makes ordinary moments feel special. The way you smile, the way you speak, the way you make silence feel meaningful, the way you make a room feel brighter—every part of you feels tender and magnetic to me. I have tried to understand it, but love is not always something that can be fully explained. Sometimes it just arrives, and when it does, it changes everything.",
+        "I do not want to keep pretending that this is just a passing feeling. I do not want to hide from the truth of what my heart has been trying to say. I want to be honest with you, and I want to be honest with myself. I care for you deeply. I admire you deeply. And I have come to the point where I can no longer act like this is just a casual feeling. It is more than that. It is affection, attraction, devotion, and yearning all blended into a love that has become too real to ignore.",
+        "If I could choose forever, I would choose forever with you. I would choose your laughter, your patience, your softness, your strength, your faith, your voice, your heart, and every beautiful part of your soul. I would choose to stand beside you through every season, to hold you in the moments that feel heavy, to celebrate you in the moments that feel light, and to remind you every day that you are loved, cherished, and deeply treasured. I would want to be the man who makes your life feel safer, sweeter, and more beautiful simply by being present in it.",
+        "I know love is not only about words. It is about showing up. It is about consistency. It is about care. It is about making someone feel wanted, protected, and understood. That is what I want to offer you. Not a temporary feeling, not a careless promise, not a shallow connection, but a love that is steady, sincere, and lasting. A love that grows with time. A love that remains even when circumstances change. A love that is built on respect, loyalty, tenderness, and commitment.",
+        "So if you are asking yourself what I am really saying, then let me say it plainly: I love you. I truly do. I love the way you are, the way you carry yourself, the way you light up the room, and the way you have become such a meaningful part of my heart. I would be honored to build something beautiful with you. I would be honored to love you with patience, devotion, and sincerity. And if you choose me, I will never take your love for granted. I will protect it, cherish it, and honor it with everything I have.",
+        "You are not just someone I admire. You are someone I feel deeply for. You are not just a beautiful face or a lovely presence. You are a whole world of warmth, grace, strength, and tenderness, and I would be blessed to call you mine. I do not just want to love you in the easy moments. I want to love you in the quiet moments, in the hard moments, in the growing moments, and in every season that life brings. That is the kind of love I would give you. That is the kind of forever I would want with you.",
+        "So tonight, I am laying my heart open before you. I am telling you that I see you, I value you, I adore you, and I would be so grateful to walk this life with you. If you choose me, I will make sure your heart feels safe. If you choose me, I will love you with all that I am. If you choose me, I will never stop choosing you with sincerity and devotion. My love for you is real, and my hope is that one day you will feel it in the deepest and most beautiful way possible."
+      ];
+
+      letterContent.innerHTML = `
+        <h2>My Dearest Love</h2>
+        ${paragraphs.map(p => `<p>${p}</p>`).join('')}
+        <p class="signoff">Yours, always.</p>
+      `;
+
+      setTimeout(() => {
+        letterScene.classList.add('show');
+        letterScene.removeAttribute('aria-hidden');
+        cinematic.classList.add('show');
+        setTimeout(() => cinematic.classList.remove('show'), 1100);
+      }, reduceMotion ? 50 : 650);
+    }
+  </script>
+</body>
 </html>
